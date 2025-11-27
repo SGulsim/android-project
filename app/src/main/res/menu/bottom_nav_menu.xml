@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_current"
+        android:icon="@android:drawable/ic_menu_today"
+        android:title="Now" />
+
+    <item
+        android:id="@+id/nav_forecast"
+        android:icon="@android:drawable/ic_menu_week"
+        android:title="Forecast" />
+
+    <item
+        android:id="@+id/nav_locations"
+        android:icon="@android:drawable/ic_menu_mylocation"
+        android:title="Locations" />
+</menu>
