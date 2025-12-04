@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.ourproject.databinding.ActivityMainBinding
 import com.example.ourproject.ui.current.CurrentWeatherFragment
+import com.example.ourproject.ui.locations.LocationsFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_locations -> {
-                    // TODO: Загрузить LocationsFragment
+                    loadFragment(LocationsFragment())
                     true
                 }
                 else -> false
