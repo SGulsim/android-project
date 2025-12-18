@@ -61,7 +61,7 @@ object ImageLoaderWrapper {
             .error(error)
             .crossfade(true)
             .build()
-        return imageLoader.enqueue(request).await()
+        return getImageLoader().execute(request)
     }
 
     /**
