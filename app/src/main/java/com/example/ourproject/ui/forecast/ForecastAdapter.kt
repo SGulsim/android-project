@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ourproject.R
 import com.example.ourproject.databinding.ItemForecastBinding
+import com.example.ourproject.util.ImageLoaderWrapper
 
 class ForecastAdapter : RecyclerView.Adapter<ForecastAdapter.ViewHolder>() {
 
@@ -44,7 +45,8 @@ class ForecastAdapter : RecyclerView.Adapter<ForecastAdapter.ViewHolder>() {
                 "rain" -> R.drawable.ic_rain
                 else   -> R.drawable.ic_cloud
             }
-            ivIcon.setImageResource(iconRes)
+            // Используем обертку Coil для загрузки изображений
+            ImageLoaderWrapper.loadImageResource(ivIcon, iconRes)
         }
     }
 
