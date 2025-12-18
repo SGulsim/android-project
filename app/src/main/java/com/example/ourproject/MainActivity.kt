@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.example.ourproject.databinding.ActivityMainBinding
 import com.example.ourproject.ui.current.CurrentWeatherFragment
 import com.example.ourproject.ui.locations.LocationsFragment
+import com.example.ourproject.ui.forecast.ForecastFragment   // ← добавь этот импорт!
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,7 +17,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Загружаем первый фрагмент
         if (savedInstanceState == null) {
             loadFragment(CurrentWeatherFragment())
         }
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_forecast -> {
-                    // TODO: Загрузить ForecastFragment
+                    loadFragment(ForecastFragment())   // ← вот сюда!
                     true
                 }
                 R.id.nav_locations -> {
