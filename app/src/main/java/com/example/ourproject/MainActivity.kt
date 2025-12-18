@@ -6,7 +6,8 @@ import androidx.fragment.app.Fragment
 import com.example.ourproject.databinding.ActivityMainBinding
 import com.example.ourproject.ui.current.CurrentWeatherFragment
 import com.example.ourproject.ui.locations.LocationsFragment
-import com.example.ourproject.ui.forecast.ForecastFragment   // ← добавь этот импорт!
+import com.example.ourproject.ui.forecast.ForecastFragment
+import com.example.ourproject.util.ImageLoaderWrapper
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,6 +15,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Инициализация ImageLoader
+        ImageLoaderWrapper.init(this)
+        
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

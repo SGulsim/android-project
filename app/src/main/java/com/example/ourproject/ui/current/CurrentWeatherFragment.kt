@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.ourproject.R
+import com.example.ourproject.data.preferences.WeatherPreferences
 import com.example.ourproject.databinding.FragmentCurrentWeatherBinding
 
 class CurrentWeatherFragment : Fragment() {
 
     private var _binding: FragmentCurrentWeatherBinding? = null
     private val binding get() = _binding!!
+    private lateinit var weatherPreferences: WeatherPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,17 +26,28 @@ class CurrentWeatherFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        weatherPreferences = WeatherPreferences(requireContext())
         setupWeatherData()
     }
 
     private fun setupWeatherData() {
+        val selectedCity = arguments?.getString("selected_city") ?: "San Francisco"
+        val tempCelsius = 72
+        val highTempCelsius = 75
+        val lowTempCelsius = 62
+        
+        val temp = weatherPreferences.convertTemperature(tempCelsius)
+        val highTemp = weatherPreferences.convertTemperature(highTempCelsius)
+        val lowTemp = weatherPreferences.convertTemperature(lowTempCelsius)
+        val symbol = weatherPreferences.getTemperatureSymbolShort()
+        
         binding.apply {
             // Основная информация
-            tvLocation.text = "San Francisco"
+            tvLocation.text = selectedCity
             tvDate.text = "Wednesday, Nov 19"
-            tvTemperature.text = "72°"
+            tvTemperature.text = "$temp$symbol"
             tvCondition.text = "Partly Cloudy"
-            tvHighLow.text = "H:75° L:62°"
+            tvHighLow.text = "H:$highTemp$symbol L:$lowTemp$symbol"
 
             // Влажность
             humidityDetail.ivIcon.setImageResource(R.drawable.ic_humidity)
