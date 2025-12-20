@@ -43,6 +43,12 @@ android {
     
     kapt {
         correctErrorTypes = true
+        useBuildCache = true
+        includeCompileClasspath = true
+        arguments {
+            arg("room.schemaLocation", "$projectDir/schemas")
+            arg("room.incremental", "true")
+        }
     }
 }
 
