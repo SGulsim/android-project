@@ -53,9 +53,24 @@ class CurrentWeatherFragment : Fragment() {
                     val cityName = selectedCity ?: LocationHelper.getCityNameFromCoordinates(requireContext(), coordinates.first, coordinates.second) 
                         ?: requireContext().getString(R.string.current_location)
                     setupWeatherData(weatherResponse, cityName)
+                } else {
+                    val defaultCoords = LocationHelper.getCoordinatesFromCityName(requireContext(), "Москва")
+                    if (defaultCoords != null) {
+                        val weatherResponse = weatherRepository.getCurrentWeather(defaultCoords.first, defaultCoords.second)
+                        setupWeatherData(weatherResponse, "Москва")
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                try {
+                    val defaultCoords = LocationHelper.getCoordinatesFromCityName(requireContext(), "Москва")
+                    if (defaultCoords != null) {
+                        val weatherResponse = weatherRepository.getCurrentWeather(defaultCoords.first, defaultCoords.second)
+                        setupWeatherData(weatherResponse, "Москва")
+                    }
+                } catch (e2: Exception) {
+                    e2.printStackTrace()
+                }
             }
         }
     }

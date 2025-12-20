@@ -82,8 +82,19 @@ class LocationsFragment : Fragment() {
                         e.printStackTrace()
                     }
                     .collect { locations ->
-                        if (locations.isEmpty() && isInitialLoad) {
+                        val hasOldCities = locations.any { 
+                            it.name == "San Francisco" || 
+                            it.name == "New York" || 
+                            it.name == "Los Angeles" || 
+                            it.name == "Chicago" || 
+                            it.name == "Miami" 
+                        }
+                        
+                        if ((locations.isEmpty() || hasOldCities) && isInitialLoad) {
                             isInitialLoad = false
+                            if (hasOldCities) {
+                                locationRepository.deleteAllLocations()
+                            }
                             insertInitialLocations()
                         } else {
                             updateAdapter(locations)
