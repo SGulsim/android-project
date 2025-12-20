@@ -37,7 +37,8 @@ class CurrentWeatherFragment : Fragment() {
     }
 
     private fun loadWeatherData() {
-        val selectedCity = arguments?.getString("selected_city")
+        val selectedCity = (activity as? com.example.ourproject.MainActivity)?.selectedCity 
+            ?: arguments?.getString("selected_city")
         
         lifecycleScope.launch {
             try {
@@ -49,7 +50,8 @@ class CurrentWeatherFragment : Fragment() {
                 
                 if (coordinates != null) {
                     val weatherResponse = weatherRepository.getCurrentWeather(coordinates.first, coordinates.second)
-                    val cityName = selectedCity ?: requireContext().getString(R.string.current_location)
+                    val cityName = selectedCity ?: LocationHelper.getCityNameFromCoordinates(requireContext(), coordinates.first, coordinates.second) 
+                        ?: requireContext().getString(R.string.current_location)
                     setupWeatherData(weatherResponse, cityName)
                 }
             } catch (e: Exception) {

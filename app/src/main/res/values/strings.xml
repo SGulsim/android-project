@@ -19,4 +19,15 @@
     <string name="current_location">Текущее местоположение</string>
     <string name="m_s">м/с</string>
     <string name="km">км</string>
+    <string name="locations">Местоположения</string>
+    <string name="search_city">Поиск города</string>
+    <string name="forecast_7_days">Прогноз на 7 дней</string>
+    <string name="nav_now">Сейчас</string>
+    <string name="nav_forecast">Прогноз</string>
+    <string name="nav_locations">Места</string>
+    <string name="high_low_temp">В:%1$d%2$s Н:%3$d%4$s</string>
+    <string name="humidity_value">%1$d%%</string>
+    <string name="wind_value">%1$d м/с</string>
+    <string name="rain_value">%1$d%%</string>
+    <string name="visibility_value">%1$d км</string>
 </resources>

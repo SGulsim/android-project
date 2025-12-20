@@ -43,10 +43,18 @@ class LocationsFragment : Fragment() {
             val database = WeatherDatabase.getDatabase(requireContext())
             locationRepository = LocationRepository(database.locationDao())
             weatherPreferences = WeatherPreferences(requireContext())
+            weatherPreferences.setTemperatureUnit(com.example.ourproject.data.preferences.TemperatureUnit.CELSIUS)
 
             adapter = LocationsAdapter { cityName ->
                 (activity as? com.example.ourproject.MainActivity)?.let { mainActivity ->
                     mainActivity.selectedCity = cityName
+                    mainActivity.loadFragment(
+                        com.example.ourproject.ui.current.CurrentWeatherFragment().apply {
+                            arguments = Bundle().apply {
+                                putString("selected_city", cityName)
+                            }
+                        }
+                    )
                     mainActivity.binding.bottomNavigation.selectedItemId = R.id.nav_current
                 }
             }
@@ -100,7 +108,8 @@ class LocationsFragment : Fragment() {
                         if (coordinates != null) {
                             val weather = weatherRepository.getCurrentWeather(coordinates.first, coordinates.second)
                             val temp = weather.main.temp.toInt()
-                            val condition = weather.weather.firstOrNull()?.main ?: "Unknown"
+                            val condition = weather.weather.firstOrNull()?.description?.replaceFirstChar { it.uppercaseChar() } 
+                                ?: weather.weather.firstOrNull()?.main ?: "Неизвестно"
                             LocationEntity(name = cityName, temp = temp, condition = condition)
                         } else {
                             null
