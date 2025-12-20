@@ -5,7 +5,7 @@ import java.util.Date
 import java.util.Locale
 
 object DateFormatter {
-    private val russianLocale = Locale("ru", "RU")
+    private val russianLocale = Locale.forLanguageTag("ru-RU")
     
     fun formatDate(timestamp: Long, pattern: String = "EEEE, d MMMM"): String {
         val date = Date(timestamp * 1000)

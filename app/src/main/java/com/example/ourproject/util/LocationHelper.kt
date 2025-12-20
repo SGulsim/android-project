@@ -7,21 +7,41 @@ import android.location.LocationManager
 import androidx.core.content.ContextCompat
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import java.util.Locale
+import kotlin.coroutines.resume
 
 object LocationHelper {
     suspend fun getCoordinatesFromCityName(context: Context, cityName: String): Pair<Double, Double>? {
         return withContext(Dispatchers.IO) {
             try {
-                val geocoder = Geocoder(context, Locale("ru", "RU"))
-                val addresses = geocoder.getFromLocationName(cityName, 1)
-                if (addresses?.isNotEmpty() == true) {
-                    val address = addresses[0]
-                    Pair(address.latitude, address.longitude)
+                val locale = Locale.forLanguageTag("ru-RU")
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    val geocoder = Geocoder(context, locale)
+                    suspendCancellableCoroutine { continuation ->
+                        geocoder.getFromLocationName(cityName, 1) { addresses ->
+                            if (addresses.isNotEmpty()) {
+                                val address = addresses[0]
+                                continuation.resume(Pair(address.latitude, address.longitude))
+                            } else {
+                                continuation.resume(getDefaultCoordinates(cityName))
+                            }
+                        }
+                    }
                 } else {
-                    getDefaultCoordinates(cityName)
+                    @Suppress("DEPRECATION")
+                    val geocoder = Geocoder(context, locale)
+                    @Suppress("DEPRECATION")
+                    val addresses = geocoder.getFromLocationName(cityName, 1)
+                    if (addresses?.isNotEmpty() == true) {
+                        val address = addresses[0]
+                        Pair(address.latitude, address.longitude)
+                    } else {
+                        getDefaultCoordinates(cityName)
+                    }
                 }
             } catch (e: Exception) {
                 getDefaultCoordinates(cityName)
@@ -69,6 +89,39 @@ object LocationHelper {
                 } ?: getDefaultCoordinates("Москва")
             } catch (e: Exception) {
                 getDefaultCoordinates("Москва")
+            }
+        }
+    }
+
+    suspend fun getCityNameFromCoordinates(context: Context, lat: Double, lon: Double): String? {
+        return withContext(Dispatchers.IO) {
+            try {
+                val locale = Locale.forLanguageTag("ru-RU")
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    val geocoder = Geocoder(context, locale)
+                    suspendCancellableCoroutine { continuation ->
+                        geocoder.getFromLocation(lat, lon, 1) { addresses ->
+                            if (addresses.isNotEmpty()) {
+                                val cityName = addresses[0].locality ?: addresses[0].adminArea
+                                continuation.resume(cityName)
+                            } else {
+                                continuation.resume(null)
+                            }
+                        }
+                    }
+                } else {
+                    @Suppress("DEPRECATION")
+                    val geocoder = Geocoder(context, locale)
+                    @Suppress("DEPRECATION")
+                    val addresses = geocoder.getFromLocation(lat, lon, 1)
+                    if (addresses?.isNotEmpty() == true) {
+                        addresses[0].locality ?: addresses[0].adminArea
+                    } else {
+                        null
+                    }
+                }
+            } catch (e: Exception) {
+                null
             }
         }
     }

@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import coil.ImageLoader
+import coil.annotation.ExperimentalCoilApi
 import coil.load
 import coil.request.CachePolicy
 import coil.request.ImageRequest
@@ -193,6 +194,7 @@ object ImageLoaderWrapper {
         imageLoader?.memoryCache?.clear()
     }
 
+    @OptIn(ExperimentalCoilApi::class)
     suspend fun clearDiskCache(context: Context) = withContext(Dispatchers.IO) {
         imageLoader?.diskCache?.clear()
     }
