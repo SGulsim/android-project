@@ -17,7 +17,7 @@ class WeatherPreferences(context: Context) {
     companion object {
         private const val PREFS_NAME = "weather_preferences"
         private const val KEY_TEMPERATURE_UNIT = "temperature_unit"
-        private const val DEFAULT_TEMPERATURE_UNIT = TemperatureUnit.CELSIUS.name
+        private const val DEFAULT_TEMPERATURE_UNIT = "CELSIUS"
     }
 
     fun getTemperatureUnit(): TemperatureUnit {
@@ -54,4 +54,3 @@ class WeatherPreferences(context: Context) {
         }
     }
 }
-

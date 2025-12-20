@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.example.ourproject.data.api.model
 
 import com.google.gson.annotations.SerializedName
