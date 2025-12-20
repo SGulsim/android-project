@@ -39,12 +39,15 @@
                 app:boxCornerRadiusBottomEnd="16dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etSearchCity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/search_city"
                     android:textColor="#FFFFFF"
                     android:textColorHint="#9CA3AF"
-                    android:background="@android:color/transparent" />
+                    android:background="@android:color/transparent"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Список локаций -->

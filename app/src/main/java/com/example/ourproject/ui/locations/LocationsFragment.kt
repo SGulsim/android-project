@@ -1,10 +1,13 @@
 package com.example.ourproject.ui.locations
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +16,7 @@ import com.example.ourproject.data.database.WeatherDatabase
 import com.example.ourproject.data.entity.LocationEntity
 import com.example.ourproject.data.preferences.WeatherPreferences
 import com.example.ourproject.data.repository.LocationRepository
+import com.example.ourproject.data.repository.WeatherRepository
 import com.example.ourproject.databinding.FragmentLocationsBinding
 import com.example.ourproject.ui.current.CurrentWeatherFragment
 import com.example.ourproject.util.LocationHelper
@@ -28,6 +32,7 @@ class LocationsFragment : Fragment() {
     private lateinit var adapter: LocationsAdapter
     private lateinit var locationRepository: LocationRepository
     private lateinit var weatherPreferences: WeatherPreferences
+    private var allLocations: List<LocationEntity> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -62,10 +67,10 @@ class LocationsFragment : Fragment() {
             binding.rvLocations.layoutManager = LinearLayoutManager(requireContext())
             binding.rvLocations.adapter = adapter
 
-            loadLocationsFromDatabase()
+            setupSearchField()
+            setupAddLocationButton()
 
-            binding.btnAddLocation.setOnClickListener {
-            }
+            loadLocationsFromDatabase()
         } catch (e: Exception) {
             Log.e("LocationsFragment", "Error in onViewCreated", e)
             e.printStackTrace()
@@ -97,7 +102,9 @@ class LocationsFragment : Fragment() {
                             }
                             insertInitialLocations()
                         } else {
-                            updateAdapter(locations)
+                            allLocations = locations
+                            val query = binding.etSearchCity.text?.toString() ?: ""
+                            filterLocations(query)
                         }
                     }
             } catch (e: Exception) {
@@ -136,6 +143,84 @@ class LocationsFragment : Fragment() {
                 }
             } catch (e: Exception) {
                 Log.e("LocationsFragment", "Error inserting initial locations", e)
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun setupSearchField() {
+        binding.etSearchCity.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                filterLocations(s?.toString() ?: "")
+            }
+        })
+
+        binding.etSearchCity.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                val query = binding.etSearchCity.text?.toString()?.trim()
+                if (!query.isNullOrEmpty()) {
+                    addLocationFromSearch(query)
+                }
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    private fun setupAddLocationButton() {
+        binding.btnAddLocation.setOnClickListener {
+            val query = binding.etSearchCity.text?.toString()?.trim()
+            if (!query.isNullOrEmpty()) {
+                addLocationFromSearch(query)
+            }
+        }
+    }
+
+    private fun filterLocations(query: String) {
+        val filtered = if (query.isBlank()) {
+            allLocations
+        } else {
+            val lowerQuery = query.lowercase()
+            allLocations.filter { 
+                it.name.lowercase().contains(lowerQuery)
+            }
+        }
+        updateAdapter(filtered)
+    }
+
+    private fun addLocationFromSearch(cityName: String) {
+        lifecycleScope.launch {
+            try {
+                val existingLocation = allLocations.find { 
+                    it.name.equals(cityName, ignoreCase = true) 
+                }
+                
+                if (existingLocation != null) {
+                    binding.etSearchCity.text?.clear()
+                    return@launch
+                }
+
+                val coordinates = LocationHelper.getCoordinatesFromCityName(requireContext(), cityName)
+                if (coordinates == null) {
+                    Log.e("LocationsFragment", "Could not find coordinates for city: $cityName")
+                    return@launch
+                }
+
+                val weatherRepository = WeatherRepository()
+                val weather = weatherRepository.getCurrentWeather(coordinates.first, coordinates.second)
+                val temp = weather.main.temp.toInt()
+                val condition = weather.weather.firstOrNull()?.description?.replaceFirstChar { it.uppercaseChar() } 
+                    ?: weather.weather.firstOrNull()?.main ?: "Неизвестно"
+                
+                val locationEntity = LocationEntity(name = cityName, temp = temp, condition = condition)
+                locationRepository.insertLocation(locationEntity)
+                
+                binding.etSearchCity.text?.clear()
+            } catch (e: Exception) {
+                Log.e("LocationsFragment", "Error adding location from search: $cityName", e)
                 e.printStackTrace()
             }
         }
