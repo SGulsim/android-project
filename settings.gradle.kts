@@ -21,6 +21,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "ourProject"
 include(":app")
-include(":libs:injector")
-include(":libs:imageloader:api")
-include(":libs:imageloader:coil")
