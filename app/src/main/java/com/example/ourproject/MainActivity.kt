@@ -15,7 +15,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        
+        // Инициализация ImageLoader
         ImageLoaderWrapper.init(this)
         
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_forecast -> {
-                    loadFragment(ForecastFragment())
+                    loadFragment(ForecastFragment())   // ← вот сюда!
                     true
                 }
                 R.id.nav_locations -> {

@@ -19,6 +19,9 @@ object ImageLoaderWrapper {
         }
     }
 
+    /**
+     * Загружает изображение по URL в ImageView
+     */
     fun loadImage(
         imageView: ImageView,
         url: String?,
@@ -58,7 +61,7 @@ object ImageLoaderWrapper {
             .error(error)
             .crossfade(true)
             .build()
-        return getImageLoader().execute(request)
+        return imageLoader.enqueue(request).await()
     }
 
     /**

@@ -41,11 +41,10 @@ class ForecastAdapter : RecyclerView.Adapter<ForecastAdapter.ViewHolder>() {
             tvPrecip.text = "${item.precipitation}%"
 
             val iconRes = when (item.iconName) {
-                "sun"  -> R.drawable.ic_sunset   // или ic_sunrise, какая красивее
+                "sun"  -> R.drawable.ic_sunset
                 "rain" -> R.drawable.ic_rain
                 else   -> R.drawable.ic_cloud
             }
-            // Используем обертку Coil для загрузки изображений
             ImageLoaderWrapper.loadImageResource(ivIcon, iconRes)
         }
     }
