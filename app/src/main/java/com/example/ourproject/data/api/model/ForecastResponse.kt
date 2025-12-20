@@ -38,20 +38,6 @@ data class MainForecast(
     @SerializedName("temp_kf") val tempKf: Double?
 )
 
-data class Clouds(
-    @SerializedName("all") val all: Int
-)
-
-data class Wind(
-    @SerializedName("speed") val speed: Double,
-    @SerializedName("deg") val deg: Int,
-    @SerializedName("gust") val gust: Double?
-)
-
-data class Rain(
-    @SerializedName("3h") val threeH: Double?
-)
-
 data class Snow(
     @SerializedName("3h") val threeH: Double?
 )
