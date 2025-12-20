@@ -19,7 +19,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Locations"
+                android:text="@string/locations"
                 android:textColor="#FFFFFF"
                 android:textSize="28sp"
                 android:layout_marginBottom="24dp" />
@@ -41,7 +41,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Search for a city"
+                    android:hint="@string/search_city"
                     android:textColor="#FFFFFF"
                     android:textColorHint="#9CA3AF"
                     android:background="@android:color/transparent" />
@@ -61,7 +61,7 @@
                 android:id="@+id/btnAddLocation"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="Add Location"
+                android:text="@string/add_location"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 app:icon="@drawable/ic_plus"

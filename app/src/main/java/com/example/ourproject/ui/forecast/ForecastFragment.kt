@@ -45,30 +45,52 @@ class ForecastFragment : Fragment() {
     }
 
     private fun loadForecastData() {
-        val selectedCity = arguments?.getString("selected_city")
+        val selectedCity = (activity as? com.example.ourproject.MainActivity)?.selectedCity 
+            ?: arguments?.getString("selected_city")
         
         lifecycleScope.launch {
             try {
                 val coordinates = if (selectedCity != null) {
+                    Log.d("ForecastFragment", "Loading forecast for city: $selectedCity")
                     LocationHelper.getCoordinatesFromCityName(requireContext(), selectedCity)
                 } else {
+                    Log.d("ForecastFragment", "Loading forecast for current location")
                     LocationHelper.getCurrentLocation(requireContext())
                 }
                 
                 if (coordinates != null) {
+                    Log.d("ForecastFragment", "Coordinates: lat=${coordinates.first}, lon=${coordinates.second}")
                     val forecastResponse = weatherRepository.getDailyForecast(coordinates.first, coordinates.second, 16)
-                    Log.d("ForecastFragment", "Forecast response: list size = ${forecastResponse.list.size}")
+                    Log.d("ForecastFragment", "Forecast response received: cod=${forecastResponse.cod}, list size = ${forecastResponse.list.size}")
                     if (forecastResponse.list.isNotEmpty()) {
                         updateAdapter(forecastResponse)
                     } else {
                         Log.e("ForecastFragment", "Forecast list is empty")
                     }
                 } else {
-                    Log.e("ForecastFragment", "Coordinates are null")
+                    Log.e("ForecastFragment", "Coordinates are null, using default location")
+                    val defaultCoords = LocationHelper.getCoordinatesFromCityName(requireContext(), "Москва")
+                    if (defaultCoords != null) {
+                        val forecastResponse = weatherRepository.getDailyForecast(defaultCoords.first, defaultCoords.second, 16)
+                        if (forecastResponse.list.isNotEmpty()) {
+                            updateAdapter(forecastResponse)
+                        }
+                    }
                 }
             } catch (e: Exception) {
                 Log.e("ForecastFragment", "Error loading forecast", e)
                 e.printStackTrace()
+                try {
+                    val defaultCoords = LocationHelper.getCoordinatesFromCityName(requireContext(), "Москва")
+                    if (defaultCoords != null) {
+                        val forecastResponse = weatherRepository.getDailyForecast(defaultCoords.first, defaultCoords.second, 16)
+                        if (forecastResponse.list.isNotEmpty()) {
+                            updateAdapter(forecastResponse)
+                        }
+                    }
+                } catch (e2: Exception) {
+                    Log.e("ForecastFragment", "Error loading default forecast", e2)
+                }
             }
         }
     }

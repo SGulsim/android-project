@@ -39,7 +39,8 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_forecast -> {
                     loadFragment(createForecastFragment())
-         }
+                    true
+                }
                 R.id.nav_locations -> {
                     loadFragment(LocationsFragment())
                     true
