@@ -5,15 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.ourproject.R
 import com.example.ourproject.data.preferences.WeatherPreferences
+import com.example.ourproject.data.repository.WeatherRepository
 import com.example.ourproject.databinding.FragmentCurrentWeatherBinding
+import com.example.ourproject.util.DateFormatter
+import com.example.ourproject.util.LocationHelper
+import kotlinx.coroutines.launch
 
 class CurrentWeatherFragment : Fragment() {
 
     private var _binding: FragmentCurrentWeatherBinding? = null
     private val binding get() = _binding!!
     private lateinit var weatherPreferences: WeatherPreferences
+    private val weatherRepository = WeatherRepository()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,57 +33,74 @@ class CurrentWeatherFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         weatherPreferences = WeatherPreferences(requireContext())
-        setupWeatherData()
+        loadWeatherData()
     }
 
-    private fun setupWeatherData() {
+    private fun loadWeatherData() {
         val selectedCity = arguments?.getString("selected_city") ?: "San Francisco"
-        val tempCelsius = 72
-        val highTempCelsius = 75
-        val lowTempCelsius = 62
+        
+        lifecycleScope.launch {
+            try {
+                val coordinates = LocationHelper.getCoordinatesFromCityName(requireContext(), selectedCity)
+                if (coordinates != null) {
+                    val weatherResponse = weatherRepository.getCurrentWeather(coordinates.first, coordinates.second)
+                    setupWeatherData(weatherResponse, selectedCity)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun setupWeatherData(weatherResponse: com.example.ourproject.data.api.model.CurrentWeatherResponse, cityName: String) {
+        val tempCelsius = weatherResponse.main.temp.toInt()
+        val highTempCelsius = weatherResponse.main.tempMax.toInt()
+        val lowTempCelsius = weatherResponse.main.tempMin.toInt()
         
         val temp = weatherPreferences.convertTemperature(tempCelsius)
         val highTemp = weatherPreferences.convertTemperature(highTempCelsius)
         val lowTemp = weatherPreferences.convertTemperature(lowTempCelsius)
         val symbol = weatherPreferences.getTemperatureSymbolShort()
         
+        val condition = weatherResponse.weather.firstOrNull()?.description?.replaceFirstChar { it.uppercaseChar() } ?: "Unknown"
+        val humidity = weatherResponse.main.humidity
+        val windSpeed = weatherResponse.wind.speed
+        val visibility = weatherResponse.visibility / 1000.0
+        val rain = weatherResponse.rain?.oneHour ?: 0.0
+        val sunrise = DateFormatter.formatTime(weatherResponse.sys.sunrise)
+        val sunset = DateFormatter.formatTime(weatherResponse.sys.sunset)
+        val date = DateFormatter.formatDate(weatherResponse.dt)
+        
         binding.apply {
-            // Основная информация
-            tvLocation.text = selectedCity
-            tvDate.text = "Wednesday, Nov 19"
+            tvLocation.text = cityName
+            tvDate.text = date
             tvTemperature.text = "$temp$symbol"
-            tvCondition.text = "Partly Cloudy"
+            tvCondition.text = condition
             tvHighLow.text = "H:$highTemp$symbol L:$lowTemp$symbol"
 
-            // Влажность
             humidityDetail.ivIcon.setImageResource(R.drawable.ic_humidity)
             humidityDetail.tvLabel.text = "Humidity"
-            humidityDetail.tvValue.text = "65%"
+            humidityDetail.tvValue.text = "$humidity%"
 
-            // Ветер
             windDetail.ivIcon.setImageResource(R.drawable.ic_wind)
             windDetail.tvLabel.text = "Wind"
-            windDetail.tvValue.text = "12 mph"
+            windDetail.tvValue.text = "${windSpeed.toInt()} m/s"
 
-            // Дождь
             rainDetail.ivIcon.setImageResource(R.drawable.ic_rain)
             rainDetail.tvLabel.text = "Rain"
-            rainDetail.tvValue.text = "20%"
+            rainDetail.tvValue.text = "${(rain * 100).toInt()}%"
 
-            // Видимость
             visibilityDetail.ivIcon.setImageResource(R.drawable.ic_visibility)
             visibilityDetail.tvLabel.text = "Visibility"
-            visibilityDetail.tvValue.text = "10 mi"
+            visibilityDetail.tvValue.text = "${visibility.toInt()} km"
 
-            // Восход
             sunriseDetail.ivIcon.setImageResource(R.drawable.ic_sunrise)
             sunriseDetail.tvLabel.text = "Sunrise"
-            sunriseDetail.tvValue.text = "6:45 AM"
+            sunriseDetail.tvValue.text = sunrise
 
-            // Закат
             sunsetDetail.ivIcon.setImageResource(R.drawable.ic_sunset)
             sunsetDetail.tvLabel.text = "Sunset"
-            sunsetDetail.tvValue.text = "5:20 PM"
+            sunsetDetail.tvValue.text = sunset
         }
     }
 
