@@ -11,7 +11,8 @@ import com.example.ourproject.util.ImageLoaderWrapper
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
+    var selectedCity: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,18 +34,37 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_current -> {
-                    loadFragment(CurrentWeatherFragment())
+                    loadFragment(createCurrentWeatherFragment())
                     true
                 }
                 R.id.nav_forecast -> {
-                    loadFragment(ForecastFragment())   // ← вот сюда!
-                    true
-                }
+                    loadFragment(createForecastFragment())
+         }
                 R.id.nav_locations -> {
                     loadFragment(LocationsFragment())
                     true
                 }
                 else -> false
+            }
+        }
+    }
+
+    private fun createCurrentWeatherFragment(): Fragment {
+        return CurrentWeatherFragment().apply {
+            selectedCity?.let {
+                arguments = Bundle().apply {
+                    putString("selected_city", it)
+                }
+            }
+        }
+    }
+
+    private fun createForecastFragment(): Fragment {
+        return ForecastFragment().apply {
+            selectedCity?.let {
+                arguments = Bundle().apply {
+                    putString("selected_city", it)
+                }
             }
         }
     }

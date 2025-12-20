@@ -1,12 +1,14 @@
 package com.example.ourproject.ui.forecast
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ourproject.R
 import com.example.ourproject.data.preferences.WeatherPreferences
 import com.example.ourproject.data.repository.WeatherRepository
 import com.example.ourproject.databinding.FragmentForecastBinding
@@ -43,25 +45,38 @@ class ForecastFragment : Fragment() {
     }
 
     private fun loadForecastData() {
-        val selectedCity = arguments?.getString("selected_city") ?: "San Francisco"
+        val selectedCity = arguments?.getString("selected_city")
         
         lifecycleScope.launch {
             try {
-                val coordinates = LocationHelper.getCoordinatesFromCityName(requireContext(), selectedCity)
+                val coordinates = if (selectedCity != null) {
+                    LocationHelper.getCoordinatesFromCityName(requireContext(), selectedCity)
+                } else {
+                    LocationHelper.getCurrentLocation(requireContext())
+                }
+                
                 if (coordinates != null) {
                     val forecastResponse = weatherRepository.getDailyForecast(coordinates.first, coordinates.second, 16)
-                    updateAdapter(forecastResponse)
+                    Log.d("ForecastFragment", "Forecast response: list size = ${forecastResponse.list.size}")
+                    if (forecastResponse.list.isNotEmpty()) {
+                        updateAdapter(forecastResponse)
+                    } else {
+                        Log.e("ForecastFragment", "Forecast list is empty")
+                    }
+                } else {
+                    Log.e("ForecastFragment", "Coordinates are null")
                 }
             } catch (e: Exception) {
+                Log.e("ForecastFragment", "Error loading forecast", e)
                 e.printStackTrace()
             }
         }
     }
 
     private fun updateAdapter(forecastResponse: com.example.ourproject.data.api.model.DailyForecastResponse) {
-        val forecastItems = forecastResponse.list.mapIndexed { index, item ->
+        val forecastItems = forecastResponse.list.take(7).mapIndexed { index, item ->
             val dayName = if (index == 0) {
-                "Today"
+                requireContext().getString(R.string.today)
             } else {
                 DateFormatter.getDayName(item.dt)
             }
