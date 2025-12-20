@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.ourproject.data.database.WeatherDatabase
-import com.example.ourproject.data.entity.ForecastEntity
 import com.example.ourproject.data.preferences.WeatherPreferences
-import com.example.ourproject.data.repository.ForecastRepository
+import com.example.ourproject.data.repository.WeatherRepository
 import com.example.ourproject.databinding.FragmentForecastBinding
-import kotlinx.coroutines.flow.collect
+import com.example.ourproject.util.DateFormatter
+import com.example.ourproject.util.LocationHelper
+import com.example.ourproject.util.WeatherIconMapper
 import kotlinx.coroutines.launch
 
 class ForecastFragment : Fragment() {
@@ -21,8 +21,8 @@ class ForecastFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val adapter = ForecastAdapter()
-    private lateinit var forecastRepository: ForecastRepository
     private lateinit var weatherPreferences: WeatherPreferences
+    private val weatherRepository = WeatherRepository()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -34,56 +34,51 @@ class ForecastFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Инициализация базы данных и репозитория
-        val database = WeatherDatabase.getDatabase(requireContext())
-        forecastRepository = ForecastRepository(database.forecastDao())
         weatherPreferences = WeatherPreferences(requireContext())
 
         binding.rvForecast.layoutManager = LinearLayoutManager(requireContext())
         binding.rvForecast.adapter = adapter
 
-        // Загружаем данные из базы данных
-        loadForecastsFromDatabase()
+        loadForecastData()
     }
 
-    private fun loadForecastsFromDatabase() {
-        var isInitialLoad = true
+    private fun loadForecastData() {
+        val selectedCity = arguments?.getString("selected_city") ?: "San Francisco"
+        
         lifecycleScope.launch {
-            forecastRepository.getAllForecasts().collect { forecasts ->
-                if (forecasts.isEmpty() && isInitialLoad) {
-                    isInitialLoad = false
-                    insertInitialForecasts()
-                } else {
-                    updateAdapter(forecasts)
+            try {
+                val coordinates = LocationHelper.getCoordinatesFromCityName(requireContext(), selectedCity)
+                if (coordinates != null) {
+                    val forecastResponse = weatherRepository.getDailyForecast(coordinates.first, coordinates.second, 16)
+                    updateAdapter(forecastResponse)
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }
 
-    private fun insertInitialForecasts() {
-        lifecycleScope.launch {
-            val initialForecasts = listOf(
-                ForecastEntity(day = "Today", date = "Nov 19", highTemp = 75, lowTemp = 62, precipitation = 20, iconName = "cloud"),
-                ForecastEntity(day = "Thursday", date = "Nov 20", highTemp = 74, lowTemp = 63, precipitation = 10, iconName = "sun"),
-                ForecastEntity(day = "Friday", date = "Nov 21", highTemp = 68, lowTemp = 58, precipitation = 30, iconName = "cloud"),
-                ForecastEntity(day = "Saturday", date = "Nov 22", highTemp = 65, lowTemp = 55, precipitation = 70, iconName = "rain"),
-                ForecastEntity(day = "Sunday", date = "Nov 23", highTemp = 70, lowTemp = 59, precipitation = 40, iconName = "rain"),
-                ForecastEntity(day = "Monday", date = "Nov 24", highTemp = 73, lowTemp = 62, precipitation = 5, iconName = "sun"),
-                ForecastEntity(day = "Tuesday", date = "Nov 25", highTemp = 75, lowTemp = 64, precipitation = 0, iconName = "sun")
+    private fun updateAdapter(forecastResponse: com.example.ourproject.data.api.model.DailyForecastResponse) {
+        val forecastItems = forecastResponse.list.mapIndexed { index, item ->
+            val dayName = if (index == 0) {
+                "Today"
+            } else {
+                DateFormatter.getDayName(item.dt)
+            }
+            val date = DateFormatter.formatShortDate(item.dt)
+            val weather = item.weather.firstOrNull()
+            val iconName = WeatherIconMapper.getIconName(
+                weather?.main ?: "",
+                weather?.icon ?: ""
             )
-            forecastRepository.insertAllForecasts(initialForecasts)
-        }
-    }
-
-    private fun updateAdapter(forecasts: List<ForecastEntity>) {
-        val forecastItems = forecasts.map { entity ->
+            
             ForecastAdapter.ForecastItem(
-                day = entity.day,
-                date = entity.date,
-                highTemp = weatherPreferences.convertTemperature(entity.highTemp),
-                lowTemp = weatherPreferences.convertTemperature(entity.lowTemp),
-                precipitation = entity.precipitation,
-                iconName = entity.iconName
+                day = dayName,
+                date = date,
+                highTemp = weatherPreferences.convertTemperature(item.temp.max.toInt()),
+                lowTemp = weatherPreferences.convertTemperature(item.temp.min.toInt()),
+                precipitation = (item.pop * 100).toInt(),
+                iconName = iconName
             )
         }
         adapter.submitList(forecastItems)
