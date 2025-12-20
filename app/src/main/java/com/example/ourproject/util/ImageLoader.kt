@@ -203,8 +203,8 @@ object ImageLoaderWrapper {
     }
 
     fun getImageLoader(): ImageLoader {
-        requireNotNull(imageLoader) { 
-            "ImageLoader not initialized. Call init() first in Application or MainActivity." 
+        requireNotNull(imageLoader) {
+            "ImageLoader not initialized. Call init() first in Application or MainActivity."
         }
         return imageLoader!!
     }
