@@ -45,15 +45,10 @@ class LocationsFragment : Fragment() {
             weatherPreferences = WeatherPreferences(requireContext())
 
             adapter = LocationsAdapter { cityName ->
-                val fragment = CurrentWeatherFragment().apply {
-                    arguments = Bundle().apply {
-                        putString("selected_city", cityName)
-                    }
+                (activity as? com.example.ourproject.MainActivity)?.let { mainActivity ->
+                    mainActivity.selectedCity = cityName
+                    mainActivity.binding.bottomNavigation.selectedItemId = R.id.nav_current
                 }
-
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .commit()
             }
 
             binding.rvLocations.layoutManager = LinearLayoutManager(requireContext())
@@ -96,7 +91,7 @@ class LocationsFragment : Fragment() {
     private fun insertInitialLocations() {
         lifecycleScope.launch {
             try {
-                val cities = listOf("San Francisco", "New York", "Los Angeles", "Chicago", "Miami")
+                val cities = listOf("Москва", "Санкт-Петербург", "Новосибирск", "Екатеринбург", "Казань")
                 val weatherRepository = com.example.ourproject.data.repository.WeatherRepository()
                 
                 val locations = cities.mapNotNull { cityName ->

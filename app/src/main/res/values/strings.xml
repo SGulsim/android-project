@@ -1,4 +1,22 @@
 <resources>
-    <string name="app_name">ourProject</string>
-    <string name="weather_detail_icon">Weather detail icon</string>
+    <string name="app_name">Погода</string>
+    <string name="weather_detail_icon">Иконка деталей погоды</string>
+    
+    <string name="today">Сегодня</string>
+    <string name="humidity">Влажность</string>
+    <string name="wind">Ветер</string>
+    <string name="rain">Дождь</string>
+    <string name="visibility">Видимость</string>
+    <string name="sunrise">Восход</string>
+    <string name="sunset">Закат</string>
+    <string name="high">Макс</string>
+    <string name="low">Мин</string>
+    <string name="precipitation">Осадки</string>
+    <string name="unknown">Неизвестно</string>
+    <string name="loading">Загрузка...</string>
+    <string name="error_loading">Ошибка загрузки данных</string>
+    <string name="add_location">Добавить город</string>
+    <string name="current_location">Текущее местоположение</string>
+    <string name="m_s">м/с</string>
+    <string name="km">км</string>
 </resources>

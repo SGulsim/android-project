@@ -37,14 +37,20 @@ class CurrentWeatherFragment : Fragment() {
     }
 
     private fun loadWeatherData() {
-        val selectedCity = arguments?.getString("selected_city") ?: "San Francisco"
+        val selectedCity = arguments?.getString("selected_city")
         
         lifecycleScope.launch {
             try {
-                val coordinates = LocationHelper.getCoordinatesFromCityName(requireContext(), selectedCity)
+                val coordinates = if (selectedCity != null) {
+                    LocationHelper.getCoordinatesFromCityName(requireContext(), selectedCity)
+                } else {
+                    LocationHelper.getCurrentLocation(requireContext())
+                }
+                
                 if (coordinates != null) {
                     val weatherResponse = weatherRepository.getCurrentWeather(coordinates.first, coordinates.second)
-                    setupWeatherData(weatherResponse, selectedCity)
+                    val cityName = selectedCity ?: requireContext().getString(R.string.current_location)
+                    setupWeatherData(weatherResponse, cityName)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -62,7 +68,7 @@ class CurrentWeatherFragment : Fragment() {
         val lowTemp = weatherPreferences.convertTemperature(lowTempCelsius)
         val symbol = weatherPreferences.getTemperatureSymbolShort()
         
-        val condition = weatherResponse.weather.firstOrNull()?.description?.replaceFirstChar { it.uppercaseChar() } ?: "Unknown"
+        val condition = weatherResponse.weather.firstOrNull()?.description?.replaceFirstChar { it.uppercaseChar() } ?: requireContext().getString(R.string.unknown)
         val humidity = weatherResponse.main.humidity
         val windSpeed = weatherResponse.wind.speed
         val visibility = weatherResponse.visibility / 1000.0
@@ -76,30 +82,30 @@ class CurrentWeatherFragment : Fragment() {
             tvDate.text = date
             tvTemperature.text = "$temp$symbol"
             tvCondition.text = condition
-            tvHighLow.text = "H:$highTemp$symbol L:$lowTemp$symbol"
+            tvHighLow.text = "${requireContext().getString(R.string.high)}:$highTemp$symbol ${requireContext().getString(R.string.low)}:$lowTemp$symbol"
 
             humidityDetail.ivIcon.setImageResource(R.drawable.ic_humidity)
-            humidityDetail.tvLabel.text = "Humidity"
+            humidityDetail.tvLabel.text = requireContext().getString(R.string.humidity)
             humidityDetail.tvValue.text = "$humidity%"
 
             windDetail.ivIcon.setImageResource(R.drawable.ic_wind)
-            windDetail.tvLabel.text = "Wind"
-            windDetail.tvValue.text = "${windSpeed.toInt()} m/s"
+            windDetail.tvLabel.text = requireContext().getString(R.string.wind)
+            windDetail.tvValue.text = "${windSpeed.toInt()} ${requireContext().getString(R.string.m_s)}"
 
             rainDetail.ivIcon.setImageResource(R.drawable.ic_rain)
-            rainDetail.tvLabel.text = "Rain"
+            rainDetail.tvLabel.text = requireContext().getString(R.string.rain)
             rainDetail.tvValue.text = "${(rain * 100).toInt()}%"
 
             visibilityDetail.ivIcon.setImageResource(R.drawable.ic_visibility)
-            visibilityDetail.tvLabel.text = "Visibility"
-            visibilityDetail.tvValue.text = "${visibility.toInt()} km"
+            visibilityDetail.tvLabel.text = requireContext().getString(R.string.visibility)
+            visibilityDetail.tvValue.text = "${visibility.toInt()} ${requireContext().getString(R.string.km)}"
 
             sunriseDetail.ivIcon.setImageResource(R.drawable.ic_sunrise)
-            sunriseDetail.tvLabel.text = "Sunrise"
+            sunriseDetail.tvLabel.text = requireContext().getString(R.string.sunrise)
             sunriseDetail.tvValue.text = sunrise
 
             sunsetDetail.ivIcon.setImageResource(R.drawable.ic_sunset)
-            sunsetDetail.tvLabel.text = "Sunset"
+            sunsetDetail.tvLabel.text = requireContext().getString(R.string.sunset)
             sunsetDetail.tvValue.text = sunset
         }
     }
