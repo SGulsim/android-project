@@ -11,4 +11,13 @@
     <color name="gray_300">#D1D5DB</color>
 
     <color name="blue_400">#60A5FA</color>
+    <color name="blue_500">#3B82F6</color>
+    
+    <color name="forecast_bg">#1E1E2E</color>
+    <color name="locations_bg">#111827</color>
+    <color name="card_location_bg">#80262A2B</color>
+    <color name="card_forecast_bg">#33FFFFFF</color>
+    <color name="card_detail_bg">#80000000</color>
+    <color name="input_bg">#33FFFFFF</color>
+    <color name="forecast_text_secondary">#94A3B8</color>
 </resources>

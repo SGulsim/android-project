@@ -2,77 +2,50 @@ package com.example.ourproject
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import com.example.ourproject.databinding.ActivityMainBinding
-import com.example.ourproject.ui.current.CurrentWeatherFragment
-import com.example.ourproject.ui.locations.LocationsFragment
-import com.example.ourproject.ui.forecast.ForecastFragment
-import com.example.ourproject.util.ImageLoaderWrapper
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.example.ourproject.core.databinding.ActivityMainBinding
+import com.example.ourproject.core.util.ImageLoaderWrapper
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
     var selectedCity: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Инициализация ImageLoader
         ImageLoaderWrapper.init(this)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (savedInstanceState == null) {
-            loadFragment(CurrentWeatherFragment())
-        }
-
-        setupBottomNavigation()
+        setupNavigation()
     }
 
-    private fun setupBottomNavigation() {
-        binding.bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_current -> {
-                    loadFragment(createCurrentWeatherFragment())
-                    true
-                }
-                R.id.nav_forecast -> {
-                    loadFragment(createForecastFragment())
-                    true
-                }
-                R.id.nav_locations -> {
-                    loadFragment(LocationsFragment())
-                    true
-                }
-                else -> false
-            }
-        }
+    private fun setupNavigation() {
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(com.example.ourproject.core.R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
+        
+        binding.bottomNavigation.setupWithNavController(navController)
     }
 
-    private fun createCurrentWeatherFragment(): Fragment {
-        return CurrentWeatherFragment().apply {
-            selectedCity?.let {
-                arguments = Bundle().apply {
-                    putString("selected_city", it)
-                }
-            }
+    fun navigateToCurrentWeather(cityName: String?) {
+        selectedCity = cityName
+        val bundle = Bundle().apply {
+            putString("selected_city", cityName)
         }
+        navController.navigate(com.example.ourproject.core.R.id.nav_current, bundle)
     }
 
-    private fun createForecastFragment(): Fragment {
-        return ForecastFragment().apply {
-            selectedCity?.let {
-                arguments = Bundle().apply {
-                    putString("selected_city", it)
-                }
-            }
+    fun navigateToForecast(cityName: String?) {
+        selectedCity = cityName
+        val bundle = Bundle().apply {
+            putString("selected_city", cityName)
         }
-    }
-
-    fun loadFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
-            .commit()
+        navController.navigate(com.example.ourproject.core.R.id.nav_forecast, bundle)
     }
 }

@@ -21,3 +21,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "ourProject"
 include(":app")
+include(":core")
+include(":data")
+include(":libs:network")
+include(":features:current")
+include(":features:forecast")
+include(":features:locations")
