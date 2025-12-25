@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt")
+    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
@@ -17,12 +17,14 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        val localProperties = java.util.Properties()
         val localPropertiesFile = rootProject.file("local.properties")
-        if (localPropertiesFile.exists()) {
-            localProperties.load(java.io.FileInputStream(localPropertiesFile))
+        val apiKey = if (localPropertiesFile.exists()) {
+            val localProperties = java.util.Properties()
+            localPropertiesFile.inputStream().use { localProperties.load(it) }
+            localProperties.getProperty("WEATHER_API_KEY") ?: ""
+        } else {
+            ""
         }
-        val apiKey = localProperties.getProperty("WEATHER_API_KEY") ?: ""
         buildConfigField("String", "WEATHER_API_KEY", "\"$apiKey\"")
     }
 
