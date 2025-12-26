@@ -47,9 +47,10 @@ class LocationsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         try {
-            val database = WeatherDatabase.getDatabase(requireContext())
+            val context = requireContext()
+            val database = WeatherDatabase.getDatabase(context)
             locationRepository = LocationRepository(database.locationDao())
-            weatherPreferences = WeatherPreferences(requireContext())
+            weatherPreferences = WeatherPreferences(context)
             weatherPreferences.setTemperatureUnit(TemperatureUnit.CELSIUS)
 
             adapter = LocationsAdapter { cityName ->

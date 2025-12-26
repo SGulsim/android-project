@@ -27,25 +27,30 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupNavigation() {
         val navHostFragment = supportFragmentManager
-            .findFragmentById(com.example.ourproject.core.R.id.nav_host_fragment) as NavHostFragment
-        navController = navHostFragment.navController
-        
-        binding.bottomNavigation.setupWithNavController(navController)
+            .findFragmentById(com.example.ourproject.core.R.id.nav_host_fragment) as? NavHostFragment
+        if (navHostFragment != null) {
+            navController = navHostFragment.navController
+            binding.bottomNavigation.setupWithNavController(navController)
+        }
     }
 
     fun navigateToCurrentWeather(cityName: String?) {
-        selectedCity = cityName
-        val bundle = Bundle().apply {
-            putString("selected_city", cityName)
+        if (::navController.isInitialized) {
+            selectedCity = cityName
+            val bundle = Bundle().apply {
+                putString("selected_city", cityName)
+            }
+            navController.navigate(com.example.ourproject.core.R.id.nav_current, bundle)
         }
-        navController.navigate(com.example.ourproject.core.R.id.nav_current, bundle)
     }
 
     fun navigateToForecast(cityName: String?) {
-        selectedCity = cityName
-        val bundle = Bundle().apply {
-            putString("selected_city", cityName)
+        if (::navController.isInitialized) {
+            selectedCity = cityName
+            val bundle = Bundle().apply {
+                putString("selected_city", cityName)
+            }
+            navController.navigate(com.example.ourproject.core.R.id.nav_forecast, bundle)
         }
-        navController.navigate(com.example.ourproject.core.R.id.nav_forecast, bundle)
     }
 }
