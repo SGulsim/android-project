@@ -76,7 +76,7 @@ private fun com.example.ourproject.network.api.model.ForecastItem.toDataModel():
         visibility = visibility,
         pop = pop,
         rain = rain?.let { Rain(it.oneHour, it.threeH) },
-        snow = snow?.let { Snow(snow.threeH) },
+        snow = snow?.let { networkSnow -> Snow(networkSnow.threeH) },
         sys = SysForecast(sys.pod),
         dtTxt = dtTxt
     )
