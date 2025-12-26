@@ -39,6 +39,9 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAddLocation"
                 style="@style/Widget.Weather.MaterialButton.AddLocation"
+                app:icon="@drawable/ic_plus"
+                app:iconGravity="textStart"
+                app:iconTint="@color/white"
                 android:text="@string/add_location" />
 
         </LinearLayout>

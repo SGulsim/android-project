@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
+    <!-- Base styles required for dot notation inheritance -->
+    <style name="TextAppearance" />
     <style name="TextAppearance.Weather" />
+    <style name="Widget" />
+    <style name="Widget.Weather" />
     <style name="Widget.Weather.Button" />
     <style name="Widget.Weather.Card" />
+    <style name="Widget.Weather.CardView" />
+    <style name="Widget.Weather.CardView.ConstraintLayout" />
+    <style name="Widget.Weather.CardView.Forecast" />
+    <style name="Widget.Weather.CardView.Location" />
+    <style name="Widget.Weather.GridLayout" />
+    <style name="Widget.Weather.ImageView" />
+    <style name="Widget.Weather.Layout" />
+    <style name="Widget.Weather.Layout.ConstraintLayout" />
+    <style name="Widget.Weather.Layout.LinearLayout" />
+    <style name="Widget.Weather.LinearLayout" />
+    <style name="Widget.Weather.MaterialButton" />
+    <style name="Widget.Weather.TextInputEditText" />
+    <style name="Widget.Weather.TextInputLayout" />
+    <style name="Widget.Weather.TextView" />
+    <style name="Widget.Weather.View" />
     
     <style name="TextAppearance.Weather.LocationTitle">
         <item name="android:textColor">@color/white</item>
@@ -140,8 +159,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/black</item>
-        <item name="app:itemIconTint">@color/bottom_nav_color</item>
-        <item name="app:itemTextColor">@color/bottom_nav_color</item>
+        <!-- Note: itemIconTint and itemTextColor should be set in layout XML -->
     </style>
 
     <style name="Widget.Weather.Layout.ScrollView">
@@ -198,21 +216,21 @@
         <item name="android:layout_width">@dimen/icon_size_large</item>
         <item name="android:layout_height">@dimen/icon_size_large</item>
         <item name="android:src">@drawable/ic_cloud</item>
-        <item name="app:tint">@color/blue_400</item>
+        <!-- Note: tint should be set in layout XML using app:tint -->
     </style>
 
     <style name="Widget.Weather.ImageView.ForecastIcon">
         <item name="android:layout_width">@dimen/icon_size_forecast</item>
         <item name="android:layout_height">@dimen/icon_size_forecast</item>
         <item name="android:src">@drawable/ic_cloud</item>
-        <item name="app:tint">@color/white</item>
+        <!-- Note: tint should be set in layout XML using app:tint -->
     </style>
 
     <style name="Widget.Weather.ImageView.LocationIcon">
         <item name="android:layout_width">@dimen/icon_size_medium</item>
         <item name="android:layout_height">@dimen/icon_size_medium</item>
         <item name="android:src">@drawable/ic_location</item>
-        <item name="app:tint">@color/blue_400</item>
+        <!-- Note: tint should be set in layout XML using app:tint -->
     </style>
 
     <style name="Widget.Weather.ImageView.DetailIcon">
@@ -230,8 +248,7 @@
     <style name="Widget.Weather.GridLayout.WeatherDetails">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="app:columnCount">2</item>
-        <item name="app:rowCount">3</item>
+        <!-- Note: columnCount and rowCount should be set in layout XML, not in styles -->
     </style>
 
     <style name="Widget.Weather.RecyclerView">

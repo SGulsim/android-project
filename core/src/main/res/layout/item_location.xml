@@ -7,7 +7,8 @@
         style="@style/Widget.Weather.LinearLayout.LocationItem">
 
         <ImageView
-            style="@style/Widget.Weather.ImageView.LocationIcon" />
+            style="@style/Widget.Weather.ImageView.LocationIcon"
+            app:tint="@color/blue_400" />
 
         <LinearLayout
             android:layout_width="0dp"

@@ -30,6 +30,7 @@
         <ImageView
             android:id="@+id/iv_icon"
             style="@style/Widget.Weather.ImageView.ForecastIcon"
+            app:tint="@color/white"
             android:layout_marginStart="@dimen/margin_icon_start"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_date"
