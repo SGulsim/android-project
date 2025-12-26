@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
+    <style name="TextAppearance.Weather" />
+    <style name="Widget.Weather.Button" />
+    <style name="Widget.Weather.Card" />
+    
     <style name="TextAppearance.Weather.LocationTitle">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/text_title</item>
