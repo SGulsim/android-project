@@ -3,17 +3,39 @@ package com.example.ourproject.data.repository
 import com.example.ourproject.data.api.model.*
 import com.example.ourproject.network.repository.WeatherRepository as NetworkWeatherRepository
 
+import android.util.Log
+
 class WeatherRepository(private val apiKey: String) {
     private val networkRepository = NetworkWeatherRepository(apiKey)
 
     suspend fun getCurrentWeather(lat: Double, lon: Double): CurrentWeatherResponse {
-        val networkResponse = networkRepository.getCurrentWeather(lat, lon)
-        return networkResponse.toDataModel()
+        try {
+            if (apiKey.isBlank()) {
+                throw IllegalStateException("API key is empty. Please set WEATHER_API_KEY in local.properties")
+            }
+            Log.d("WeatherRepository", "Getting current weather for lat=$lat, lon=$lon")
+            val networkResponse = networkRepository.getCurrentWeather(lat, lon)
+            Log.d("WeatherRepository", "Current weather received: ${networkResponse.name}, temp=${networkResponse.main.temp}")
+            return networkResponse.toDataModel()
+        } catch (e: Exception) {
+            Log.e("WeatherRepository", "Error getting current weather", e)
+            throw e
+        }
     }
 
     suspend fun getForecast(lat: Double, lon: Double): ForecastResponse {
-        val networkResponse = networkRepository.getForecast(lat, lon)
-        return networkResponse.toDataModel()
+        try {
+            if (apiKey.isBlank()) {
+                throw IllegalStateException("API key is empty. Please set WEATHER_API_KEY in local.properties")
+            }
+            Log.d("WeatherRepository", "Getting forecast for lat=$lat, lon=$lon")
+            val networkResponse = networkRepository.getForecast(lat, lon)
+            Log.d("WeatherRepository", "Forecast received: cod=${networkResponse.cod}, list size=${networkResponse.list.size}")
+            return networkResponse.toDataModel()
+        } catch (e: Exception) {
+            Log.e("WeatherRepository", "Error getting forecast", e)
+            throw e
+        }
     }
 }
 

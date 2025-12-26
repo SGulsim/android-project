@@ -1,6 +1,7 @@
 package com.example.ourproject.current
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,19 +44,31 @@ class CurrentWeatherFragment : Fragment() {
         
         lifecycleScope.launch {
             try {
+                val apiKey = BuildConfig.WEATHER_API_KEY
+                if (apiKey.isBlank()) {
+                    Log.e("CurrentWeatherFragment", "API key is empty! Please set WEATHER_API_KEY in local.properties")
+                    return@launch
+                }
+                Log.d("CurrentWeatherFragment", "Loading weather data for city: $selectedCity")
+                
                 val defaultCity = requireContext().getString(R.string.default_city_moscow)
                 val coordinates = if (selectedCity != null) {
+                    Log.d("CurrentWeatherFragment", "Getting coordinates for selected city: $selectedCity")
                     LocationHelper.getCoordinatesFromCityName(requireContext(), selectedCity, defaultCity)
                 } else {
+                    Log.d("CurrentWeatherFragment", "Getting current location")
                     LocationHelper.getCurrentLocation(requireContext(), defaultCity)
                 }
                 
                 if (coordinates != null) {
+                    Log.d("CurrentWeatherFragment", "Coordinates: lat=${coordinates.first}, lon=${coordinates.second}")
                     val weatherResponse = weatherRepository.getCurrentWeather(coordinates.first, coordinates.second)
                     val cityName = selectedCity ?: LocationHelper.getCityNameFromCoordinates(requireContext(), coordinates.first, coordinates.second) 
                         ?: requireContext().getString(R.string.current_location)
+                    Log.d("CurrentWeatherFragment", "Weather loaded successfully for $cityName: temp=${weatherResponse.main.temp}")
                     setupWeatherData(weatherResponse, cityName)
                 } else {
+                    Log.e("CurrentWeatherFragment", "Coordinates are null, using default city")
                     val defaultCoords = LocationHelper.getCoordinatesFromCityName(requireContext(), defaultCity, defaultCity)
                     if (defaultCoords != null) {
                         val weatherResponse = weatherRepository.getCurrentWeather(defaultCoords.first, defaultCoords.second)
@@ -63,6 +76,7 @@ class CurrentWeatherFragment : Fragment() {
                     }
                 }
             } catch (e: Exception) {
+                Log.e("CurrentWeatherFragment", "Error loading weather data", e)
                 e.printStackTrace()
                 try {
                     val defaultCity = requireContext().getString(R.string.default_city_moscow)
@@ -72,6 +86,7 @@ class CurrentWeatherFragment : Fragment() {
                         setupWeatherData(weatherResponse, defaultCity)
                     }
                 } catch (e2: Exception) {
+                    Log.e("CurrentWeatherFragment", "Error loading default weather", e2)
                     e2.printStackTrace()
                 }
             }

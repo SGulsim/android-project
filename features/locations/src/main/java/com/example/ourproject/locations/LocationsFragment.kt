@@ -114,6 +114,13 @@ class LocationsFragment : Fragment() {
     private fun insertInitialLocations() {
         lifecycleScope.launch {
             try {
+                val apiKey = BuildConfig.WEATHER_API_KEY
+                if (apiKey.isBlank()) {
+                    Log.e("LocationsFragment", "API key is empty! Please set WEATHER_API_KEY in local.properties")
+                    return@launch
+                }
+                Log.d("LocationsFragment", "Inserting initial locations with API key: ${apiKey.take(5)}...")
+                
                 val cities = listOf(
                     getString(R.string.default_city_moscow),
                     getString(R.string.default_city_spb),
@@ -122,28 +129,37 @@ class LocationsFragment : Fragment() {
                     getString(R.string.default_city_kazan)
                 )
                 val defaultCity = getString(R.string.default_city_moscow)
-                val weatherRepository = WeatherRepository(BuildConfig.WEATHER_API_KEY)
+                val weatherRepository = WeatherRepository(apiKey)
                 
                 val locations = cities.mapNotNull { cityName ->
                     try {
+                        Log.d("LocationsFragment", "Loading weather for city: $cityName")
                         val coordinates = LocationHelper.getCoordinatesFromCityName(requireContext(), cityName, defaultCity)
                         if (coordinates != null) {
+                            Log.d("LocationsFragment", "Coordinates for $cityName: lat=${coordinates.first}, lon=${coordinates.second}")
                             val weather = weatherRepository.getCurrentWeather(coordinates.first, coordinates.second)
                             val temp = weather.main.temp.toInt()
                             val condition = weather.weather.firstOrNull()?.description?.replaceFirstChar { it.uppercaseChar() } 
                                 ?: weather.weather.firstOrNull()?.main ?: getString(R.string.unknown)
+                            Log.d("LocationsFragment", "Successfully loaded weather for $cityName: temp=$temp, condition=$condition")
                             LocationEntity(name = cityName, temp = temp, condition = condition)
                         } else {
+                            Log.e("LocationsFragment", "Could not get coordinates for city: $cityName")
                             null
                         }
                     } catch (e: Exception) {
                         Log.e("LocationsFragment", "Error loading weather for $cityName", e)
+                        e.printStackTrace()
                         null
                     }
                 }
                 
+                Log.d("LocationsFragment", "Loaded ${locations.size} locations out of ${cities.size} cities")
                 if (locations.isNotEmpty()) {
                     locationRepository.insertAllLocations(locations)
+                    Log.d("LocationsFragment", "Successfully inserted ${locations.size} locations to database")
+                } else {
+                    Log.e("LocationsFragment", "No locations were loaded. Check API key and network connection.")
                 }
             } catch (e: Exception) {
                 Log.e("LocationsFragment", "Error inserting initial locations", e)
@@ -198,15 +214,23 @@ class LocationsFragment : Fragment() {
     private fun addLocationFromSearch(cityName: String) {
         lifecycleScope.launch {
             try {
+                val apiKey = BuildConfig.WEATHER_API_KEY
+                if (apiKey.isBlank()) {
+                    Log.e("LocationsFragment", "API key is empty! Please set WEATHER_API_KEY in local.properties")
+                    return@launch
+                }
+                
                 val existingLocation = allLocations.find { 
                     it.name.equals(cityName, ignoreCase = true) 
                 }
                 
                 if (existingLocation != null) {
+                    Log.d("LocationsFragment", "City $cityName already exists")
                     binding.etSearchCity.text?.clear()
                     return@launch
                 }
 
+                Log.d("LocationsFragment", "Adding new location: $cityName")
                 val defaultCity = getString(R.string.default_city_moscow)
                 val coordinates = LocationHelper.getCoordinatesFromCityName(requireContext(), cityName, defaultCity)
                 if (coordinates == null) {
@@ -214,14 +238,17 @@ class LocationsFragment : Fragment() {
                     return@launch
                 }
 
-                val weatherRepository = WeatherRepository(BuildConfig.WEATHER_API_KEY)
+                Log.d("LocationsFragment", "Coordinates for $cityName: lat=${coordinates.first}, lon=${coordinates.second}")
+                val weatherRepository = WeatherRepository(apiKey)
                 val weather = weatherRepository.getCurrentWeather(coordinates.first, coordinates.second)
                 val temp = weather.main.temp.toInt()
                 val condition = weather.weather.firstOrNull()?.description?.replaceFirstChar { it.uppercaseChar() } 
                     ?: weather.weather.firstOrNull()?.main ?: getString(R.string.unknown)
                 
+                Log.d("LocationsFragment", "Successfully loaded weather for $cityName: temp=$temp, condition=$condition")
                 val locationEntity = LocationEntity(name = cityName, temp = temp, condition = condition)
                 locationRepository.insertLocation(locationEntity)
+                Log.d("LocationsFragment", "Successfully added location: $cityName")
                 
                 binding.etSearchCity.text?.clear()
             } catch (e: Exception) {
