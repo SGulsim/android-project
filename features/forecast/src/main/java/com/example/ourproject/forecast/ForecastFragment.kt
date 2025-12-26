@@ -47,17 +47,30 @@ class ForecastFragment : Fragment() {
         loadForecastData()
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Reload data when fragment becomes visible to ensure we have the latest selected city
+        loadForecastData()
+    }
+
     private fun loadForecastData() {
         val selectedCity = arguments?.getString("selected_city")
         
         lifecycleScope.launch {
             try {
+                val apiKey = BuildConfig.WEATHER_API_KEY
+                if (apiKey.isBlank()) {
+                    Log.e("ForecastFragment", "API key is empty! Please set WEATHER_API_KEY in local.properties")
+                    return@launch
+                }
+                
+                Log.d("ForecastFragment", "Loading forecast for city: $selectedCity")
                 val defaultCity = requireContext().getString(R.string.default_city_moscow)
-                val coordinates = if (selectedCity != null) {
-                    Log.d("ForecastFragment", "Loading forecast for city: $selectedCity")
+                val coordinates = if (selectedCity != null && selectedCity.isNotBlank()) {
+                    Log.d("ForecastFragment", "Getting coordinates for selected city: $selectedCity")
                     LocationHelper.getCoordinatesFromCityName(requireContext(), selectedCity, defaultCity)
                 } else {
-                    Log.d("ForecastFragment", "Loading forecast for current location")
+                    Log.d("ForecastFragment", "No city selected, getting current location")
                     LocationHelper.getCurrentLocation(requireContext(), defaultCity)
                 }
                 
@@ -71,7 +84,7 @@ class ForecastFragment : Fragment() {
                         Log.e("ForecastFragment", "Forecast list is empty")
                     }
                 } else {
-                    Log.e("ForecastFragment", "Coordinates are null, using default location")
+                    Log.e("ForecastFragment", "Coordinates are null, using default location: $defaultCity")
                     val defaultCoords = LocationHelper.getCoordinatesFromCityName(requireContext(), defaultCity, defaultCity)
                     if (defaultCoords != null) {
                         val forecastResponse = weatherRepository.getForecast(defaultCoords.first, defaultCoords.second)
@@ -94,6 +107,7 @@ class ForecastFragment : Fragment() {
                     }
                 } catch (e2: Exception) {
                     Log.e("ForecastFragment", "Error loading default forecast", e2)
+                    e2.printStackTrace()
                 }
             }
         }
