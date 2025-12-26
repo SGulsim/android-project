@@ -12,6 +12,7 @@ constraintlayout = "2.2.1"
 startup = "1.2.0"
 koin = "4.1.1"
 jetbrainsKotlinJvm = "2.0.21"
+ksp = "2.0.21-1.0.29"
 coil = "3.3.0"
 
 [libraries]
@@ -41,4 +42,5 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
