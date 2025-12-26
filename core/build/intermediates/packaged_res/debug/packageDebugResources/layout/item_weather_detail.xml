@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/Widget.Weather.Card.Detail">
+
+    <LinearLayout
+        style="@style/Widget.Weather.Layout.LinearLayout.Vertical.Padding">
+
+        <LinearLayout
+            style="@style/Widget.Weather.LinearLayout.DetailItem"
+            android:layout_marginBottom="@dimen/margin_detail_label_bottom">
+
+            <ImageView
+                android:id="@+id/iv_icon"
+                style="@style/Widget.Weather.ImageView.DetailIcon"
+                android:layout_marginEnd="@dimen/spacing_sm"
+                tools:src="@drawable/ic_humidity" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.Weather.DetailLabel"
+                tools:text="Humidity" />
+
+        </LinearLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.Weather.DetailValue"
+            tools:text="65%" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
