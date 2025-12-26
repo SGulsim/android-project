@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.ourproject.BuildConfig
+import com.example.ourproject.forecast.BuildConfig
 import com.example.ourproject.core.R
 import com.example.ourproject.core.databinding.FragmentForecastBinding
 import com.example.ourproject.data.preferences.WeatherPreferences
@@ -47,8 +48,7 @@ class ForecastFragment : Fragment() {
     }
 
     private fun loadForecastData() {
-        val selectedCity = (activity as? com.example.ourproject.MainActivity)?.selectedCity 
-            ?: arguments?.getString("selected_city")
+        val selectedCity = arguments?.getString("selected_city")
         
         lifecycleScope.launch {
             try {

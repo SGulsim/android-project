@@ -10,8 +10,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.ourproject.BuildConfig
+import com.example.ourproject.locations.BuildConfig
 import com.example.ourproject.core.R
 import com.example.ourproject.core.databinding.FragmentLocationsBinding
 import com.example.ourproject.data.database.WeatherDatabase
@@ -52,9 +53,10 @@ class LocationsFragment : Fragment() {
             weatherPreferences.setTemperatureUnit(TemperatureUnit.CELSIUS)
 
             adapter = LocationsAdapter { cityName ->
-                (activity as? com.example.ourproject.MainActivity)?.let { mainActivity ->
-                    mainActivity.navigateToCurrentWeather(cityName)
+                val bundle = Bundle().apply {
+                    putString("selected_city", cityName)
                 }
+                findNavController().navigate(com.example.ourproject.core.R.id.nav_current, bundle)
             }
 
             binding.rvLocations.layoutManager = LinearLayoutManager(requireContext())

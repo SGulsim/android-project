@@ -6,7 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.example.ourproject.BuildConfig
+import androidx.navigation.fragment.findNavController
+import com.example.ourproject.current.BuildConfig
 import com.example.ourproject.core.R
 import com.example.ourproject.core.databinding.FragmentCurrentWeatherBinding
 import com.example.ourproject.data.preferences.WeatherPreferences
@@ -38,8 +39,7 @@ class CurrentWeatherFragment : Fragment() {
     }
 
     private fun loadWeatherData() {
-        val selectedCity = (activity as? com.example.ourproject.MainActivity)?.selectedCity 
-            ?: arguments?.getString("selected_city")
+        val selectedCity = arguments?.getString("selected_city")
         
         lifecycleScope.launch {
             try {
