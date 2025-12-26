@@ -22,9 +22,15 @@ android {
         val apiKey = if (localPropertiesFile.exists()) {
             val props = Properties()
             localPropertiesFile.inputStream().use { props.load(it) }
-            props.getProperty("WEATHER_API_KEY") ?: ""
+            val key = props.getProperty("WEATHER_API_KEY") ?: ""
+            println("App: Loaded API key from local.properties: ${if (key.isNotEmpty()) "${key.take(5)}..." else "EMPTY"}")
+            key
         } else {
+            println("App: local.properties file not found!")
             ""
+        }
+        if (apiKey.isEmpty()) {
+            println("App: WARNING - API key is empty! BuildConfig.WEATHER_API_KEY will be empty string.")
         }
         buildConfigField("String", "WEATHER_API_KEY", "\"$apiKey\"")
     }

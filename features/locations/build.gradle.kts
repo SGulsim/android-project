@@ -14,14 +14,20 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-        
+
         val localPropertiesFile = rootProject.file("local.properties")
         val apiKey = if (localPropertiesFile.exists()) {
             val props = Properties()
             localPropertiesFile.inputStream().use { props.load(it) }
-            props.getProperty("WEATHER_API_KEY") ?: ""
+            val key = props.getProperty("WEATHER_API_KEY") ?: ""
+            println("LocationsFragment: Loaded API key from local.properties: ${if (key.isNotEmpty()) "${key.take(5)}..." else "EMPTY"}")
+            key
         } else {
+            println("LocationsFragment: local.properties file not found!")
             ""
+        }
+        if (apiKey.isEmpty()) {
+            println("LocationsFragment: WARNING - API key is empty! BuildConfig.WEATHER_API_KEY will be empty string.")
         }
         buildConfigField("String", "WEATHER_API_KEY", "\"$apiKey\"")
     }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.Weather.Layout.LinearLayout.Vertical.Padding"
+    android:background="@color/forecast_bg">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/forecast_7_days"
+        style="@style/TextAppearance.Weather.ScreenTitle"
+        android:layout_marginBottom="@dimen/spacing_lg"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_forecast"
+        style="@style/Widget.Weather.RecyclerView" />
+
+</LinearLayout>

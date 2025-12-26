@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="blue_400">#60A5FA</color>
+    <color name="blue_500">#3B82F6</color>
+    <color name="card_detail_bg">#80000000</color>
+    <color name="card_forecast_bg">#33FFFFFF</color>
+    <color name="card_location_bg">#80262A2B</color>
+    <color name="forecast_bg">#1E1E2E</color>
+    <color name="forecast_text_secondary">#94A3B8</color>
+    <color name="gray_300">#D1D5DB</color>
+    <color name="gray_400">#9CA3AF</color>
+    <color name="gray_500">#6B7280</color>
+    <color name="gray_700">#374151</color>
+    <color name="gray_800">#1F2937</color>
+    <color name="gray_900">#111827</color>
+    <color name="input_bg">#33FFFFFF</color>
+    <color name="locations_bg">#111827</color>
+    <color name="white">#FFFFFFFF</color>
+    <dimen name="button_height">56dp</dimen>
+    <dimen name="card_corner_radius">16dp</dimen>
+    <dimen name="card_corner_radius_large">20dp</dimen>
+    <dimen name="icon_size_forecast">26dp</dimen>
+    <dimen name="icon_size_large">120dp</dimen>
+    <dimen name="icon_size_medium">24dp</dimen>
+    <dimen name="icon_size_small">16dp</dimen>
+    <dimen name="margin_detail_label_bottom">4dp</dimen>
+    <dimen name="margin_icon_start">28dp</dimen>
+    <dimen name="margin_vertical_forecast">6dp</dimen>
+    <dimen name="spacing_lg">24dp</dimen>
+    <dimen name="spacing_md">16dp</dimen>
+    <dimen name="spacing_sm">8dp</dimen>
+    <dimen name="spacing_xl">32dp</dimen>
+    <dimen name="spacing_xs">4dp</dimen>
+    <dimen name="spacing_xxl">48dp</dimen>
+    <dimen name="spacing_xxs">2dp</dimen>
+    <dimen name="text_body">14sp</dimen>
+    <dimen name="text_caption">12sp</dimen>
+    <dimen name="text_display">72sp</dimen>
+    <dimen name="text_size_city_temp">28sp</dimen>
+    <dimen name="text_size_condition">20sp</dimen>
+    <dimen name="text_size_detail_value">20sp</dimen>
+    <dimen name="text_size_forecast_date">14sp</dimen>
+    <dimen name="text_size_forecast_day">17sp</dimen>
+    <dimen name="text_size_forecast_temp">19sp</dimen>
+    <dimen name="text_size_screen_title">28sp</dimen>
+    <dimen name="text_subtitle">16sp</dimen>
+    <dimen name="text_title">24sp</dimen>
+    <string name="add_location">Добавить город</string>
+    <string name="app_name">Погода</string>
+    <string name="current_location">Текущее местоположение</string>
+    <string name="default_city_ekaterinburg">Екатеринбург</string>
+    <string name="default_city_kazan">Казань</string>
+    <string name="default_city_moscow">Москва</string>
+    <string name="default_city_novosibirsk">Новосибирск</string>
+    <string name="default_city_spb">Санкт-Петербург</string>
+    <string name="error_loading">Ошибка загрузки данных</string>
+    <string name="forecast_7_days">Прогноз на 7 дней</string>
+    <string name="high">Макс</string>
+    <string name="high_low_temp">В:%1$d%2$s Н:%3$d%4$s</string>
+    <string name="humidity">Влажность</string>
+    <string name="humidity_value">%1$d%%</string>
+    <string name="km">км</string>
+    <string name="loading">Загрузка...</string>
+    <string name="locations">Местоположения</string>
+    <string name="low">Мин</string>
+    <string name="m_s">м/с</string>
+    <string name="margin_icon_start">28dp</string>
+    <string name="nav_forecast">Прогноз</string>
+    <string name="nav_locations">Места</string>
+    <string name="nav_now">Сейчас</string>
+    <string name="old_city_chicago">Chicago</string>
+    <string name="old_city_los_angeles">Los Angeles</string>
+    <string name="old_city_miami">Miami</string>
+    <string name="old_city_new_york">New York</string>
+    <string name="old_city_san_francisco">San Francisco</string>
+    <string name="placeholder_city_name">San Francisco</string>
+    <string name="placeholder_condition">Partly Cloudy</string>
+    <string name="placeholder_date">Wednesday, Nov 19</string>
+    <string name="placeholder_date_short">Nov 19</string>
+    <string name="placeholder_day">Today</string>
+    <string name="placeholder_high_low">H:75° L:62°</string>
+    <string name="placeholder_precipitation">20%</string>
+    <string name="placeholder_temp_high">75°</string>
+    <string name="placeholder_temp_low">62°</string>
+    <string name="placeholder_temperature">72°</string>
+    <string name="precipitation">Осадки</string>
+    <string name="rain">Дождь</string>
+    <string name="rain_value">%1$d%%</string>
+    <string name="search_city">Поиск города</string>
+    <string name="sunrise">Восход</string>
+    <string name="sunset">Закат</string>
+    <string name="today">Сегодня</string>
+    <string name="unknown">Неизвестно</string>
+    <string name="visibility">Видимость</string>
+    <string name="visibility_value">%1$d км</string>
+    <string name="weather_detail_icon">Иконка деталей погоды</string>
+    <string name="wind">Ветер</string>
+    <string name="wind_value">%1$d м/с</string>
+    <style name="Base.Theme.OurProject" parent="Theme.Material3.DayNight.NoActionBar">
+    </style>
+    <style name="TextAppearance"/>
+    <style name="TextAppearance.Weather"/>
+    <style name="TextAppearance.Weather.CityCondition">
+        <item name="android:textColor">@color/gray_400</item>
+        <item name="android:textSize">@dimen/text_caption</item>
+    </style>
+    <style name="TextAppearance.Weather.CityName">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_subtitle</item>
+    </style>
+    <style name="TextAppearance.Weather.CityTemp">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_city_temp</item>
+    </style>
+    <style name="TextAppearance.Weather.Condition">
+        <item name="android:textColor">@color/gray_300</item>
+        <item name="android:textSize">@dimen/text_size_condition</item>
+    </style>
+    <style name="TextAppearance.Weather.Date">
+        <item name="android:textColor">@color/gray_400</item>
+        <item name="android:textSize">@dimen/text_subtitle</item>
+    </style>
+    <style name="TextAppearance.Weather.DetailLabel">
+        <item name="android:textColor">@color/gray_400</item>
+        <item name="android:textSize">@dimen/text_caption</item>
+    </style>
+    <style name="TextAppearance.Weather.DetailValue">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_detail_value</item>
+    </style>
+    <style name="TextAppearance.Weather.ForecastDate">
+        <item name="android:textColor">@color/forecast_text_secondary</item>
+        <item name="android:textSize">@dimen/text_size_forecast_date</item>
+    </style>
+    <style name="TextAppearance.Weather.ForecastDay">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_forecast_day</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextAppearance.Weather.ForecastPrecip">
+        <item name="android:textColor">@color/blue_400</item>
+        <item name="android:textSize">@dimen/text_size_forecast_day</item>
+    </style>
+    <style name="TextAppearance.Weather.ForecastTemp">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_forecast_temp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextAppearance.Weather.ForecastTempLow">
+        <item name="android:textColor">@color/forecast_text_secondary</item>
+        <item name="android:textSize">@dimen/text_size_forecast_temp</item>
+    </style>
+    <style name="TextAppearance.Weather.HighLow">
+        <item name="android:textColor">@color/gray_400</item>
+        <item name="android:textSize">@dimen/text_subtitle</item>
+    </style>
+    <style name="TextAppearance.Weather.LocationTitle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_title</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextAppearance.Weather.ScreenTitle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_screen_title</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextAppearance.Weather.Temperature">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_display</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="Theme.OurProject" parent="Base.Theme.OurProject"/>
+    <style name="Widget"/>
+    <style name="Widget.Weather"/>
+    <style name="Widget.Weather.Button"/>
+    <style name="Widget.Weather.Button.Primary">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_subtitle</item>
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="cornerRadius">@dimen/card_corner_radius</item>
+        <item name="backgroundTint">@color/blue_500</item>
+    </style>
+    <style name="Widget.Weather.Card"/>
+    <style name="Widget.Weather.Card.Detail">
+        <item name="cardCornerRadius">@dimen/card_corner_radius</item>
+        <item name="cardBackgroundColor">@color/card_detail_bg</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+    <style name="Widget.Weather.Card.Forecast">
+        <item name="cardCornerRadius">@dimen/card_corner_radius_large</item>
+        <item name="cardBackgroundColor">@color/card_forecast_bg</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+    <style name="Widget.Weather.Card.Location">
+        <item name="cardCornerRadius">@dimen/card_corner_radius</item>
+        <item name="cardBackgroundColor">@color/card_location_bg</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+    <style name="Widget.Weather.CardView"/>
+    <style name="Widget.Weather.CardView.ConstraintLayout"/>
+    <style name="Widget.Weather.CardView.ConstraintLayout.Padding">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/spacing_md</item>
+    </style>
+    <style name="Widget.Weather.CardView.Forecast"/>
+    <style name="Widget.Weather.CardView.Forecast.Item">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginHorizontal">@dimen/spacing_md</item>
+        <item name="android:layout_marginVertical">6dp</item>
+    </style>
+    <style name="Widget.Weather.CardView.Location"/>
+    <style name="Widget.Weather.CardView.Location.Item">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_sm</item>
+    </style>
+    <style name="Widget.Weather.GridLayout"/>
+    <style name="Widget.Weather.GridLayout.WeatherDetails">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        
+    </style>
+    <style name="Widget.Weather.ImageView"/>
+    <style name="Widget.Weather.ImageView.DetailIcon">
+        <item name="android:layout_width">@dimen/icon_size_small</item>
+        <item name="android:layout_height">@dimen/icon_size_small</item>
+        <item name="android:tint">@color/gray_400</item>
+    </style>
+    <style name="Widget.Weather.ImageView.ForecastIcon">
+        <item name="android:layout_width">@dimen/icon_size_forecast</item>
+        <item name="android:layout_height">@dimen/icon_size_forecast</item>
+        <item name="android:src">@drawable/ic_cloud</item>
+        
+    </style>
+    <style name="Widget.Weather.ImageView.LocationIcon">
+        <item name="android:layout_width">@dimen/icon_size_medium</item>
+        <item name="android:layout_height">@dimen/icon_size_medium</item>
+        <item name="android:src">@drawable/ic_location</item>
+        
+    </style>
+    <style name="Widget.Weather.ImageView.WeatherIcon">
+        <item name="android:layout_width">@dimen/icon_size_large</item>
+        <item name="android:layout_height">@dimen/icon_size_large</item>
+        <item name="android:src">@drawable/ic_cloud</item>
+        
+    </style>
+    <style name="Widget.Weather.Layout"/>
+    <style name="Widget.Weather.Layout.BottomNavigation">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/black</item>
+        
+    </style>
+    <style name="Widget.Weather.Layout.ConstraintLayout"/>
+    <style name="Widget.Weather.Layout.ConstraintLayout.Padding">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/spacing_lg</item>
+    </style>
+    <style name="Widget.Weather.Layout.CoordinatorLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/locations_bg</item>
+    </style>
+    <style name="Widget.Weather.Layout.FragmentContainer">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+    </style>
+    <style name="Widget.Weather.Layout.LinearLayout"/>
+    <style name="Widget.Weather.Layout.LinearLayout.Vertical">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <style name="Widget.Weather.Layout.LinearLayout.Vertical.Padding">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">@dimen/spacing_md</item>
+    </style>
+    <style name="Widget.Weather.Layout.Main">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/gray_900</item>
+    </style>
+    <style name="Widget.Weather.Layout.NestedScrollView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:padding">@dimen/spacing_md</item>
+    </style>
+    <style name="Widget.Weather.Layout.ScrollView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/gray_900</item>
+        <item name="android:fillViewport">true</item>
+    </style>
+    <style name="Widget.Weather.LinearLayout"/>
+    <style name="Widget.Weather.LinearLayout.DetailItem">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <style name="Widget.Weather.LinearLayout.LocationItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:padding">@dimen/spacing_md</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+    <style name="Widget.Weather.MaterialButton"/>
+    <style name="Widget.Weather.MaterialButton.AddLocation">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/button_height</item>
+        <item name="app:icon">@drawable/ic_plus</item>
+        <item name="app:iconGravity">textStart</item>
+        <item name="app:iconTint">@color/white</item>
+    </style>
+    <style name="Widget.Weather.RecyclerView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <style name="Widget.Weather.RecyclerView.Weight">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+    <style name="Widget.Weather.TextInputEditText"/>
+    <style name="Widget.Weather.TextInputEditText.Search">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/gray_400</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:imeOptions">actionSearch</item>
+        <item name="android:inputType">text</item>
+    </style>
+    <style name="Widget.Weather.TextInputLayout"/>
+    <style name="Widget.Weather.TextInputLayout.Search">
+        <item name="boxBackgroundMode">filled</item>
+        <item name="boxBackgroundColor">@color/input_bg</item>
+        <item name="boxCornerRadiusTopStart">@dimen/card_corner_radius</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/card_corner_radius</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/card_corner_radius</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/card_corner_radius</item>
+    </style>
+    <style name="Widget.Weather.TextView"/>
+    <style name="Widget.Weather.TextView.LocationTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">32sp</item>
+    </style>
+    <style name="Widget.Weather.TextView.Temperature">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">64sp</item>
+    </style>
+    <style name="Widget.Weather.View"/>
+    <style name="Widget.Weather.View.Divider">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/gray_700</item>
+    </style>
+</resources>

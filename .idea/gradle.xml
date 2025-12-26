@@ -11,11 +11,14 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/data" />
+            <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/current" />
+            <option value="$PROJECT_DIR$/features/forecast" />
+            <option value="$PROJECT_DIR$/features/locations" />
             <option value="$PROJECT_DIR$/libs" />
-            <option value="$PROJECT_DIR$/libs/imageloader" />
-            <option value="$PROJECT_DIR$/libs/imageloader/api" />
-            <option value="$PROJECT_DIR$/libs/imageloader/coil" />
-            <option value="$PROJECT_DIR$/libs/injector" />
+            <option value="$PROJECT_DIR$/libs/network" />
           </set>
         </option>
       </GradleProjectSettings>
