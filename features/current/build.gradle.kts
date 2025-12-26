@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -15,7 +17,7 @@ android {
         
         val localPropertiesFile = rootProject.file("local.properties")
         val apiKey = if (localPropertiesFile.exists()) {
-            val props = java.util.Properties()
+            val props = Properties()
             localPropertiesFile.inputStream().use { props.load(it) }
             props.getProperty("WEATHER_API_KEY") ?: ""
         } else {
