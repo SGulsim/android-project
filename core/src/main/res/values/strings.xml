@@ -21,7 +21,7 @@
     <string name="km">км</string>
     <string name="locations">Местоположения</string>
     <string name="search_city">Поиск города</string>
-    <string name="forecast_7_days">Прогноз на 7 дней</string>
+    <string name="forecast_7_days">Прогноз на 5 дней</string>
     <string name="nav_now">Сейчас</string>
     <string name="nav_forecast">Прогноз</string>
     <string name="nav_locations">Места</string>

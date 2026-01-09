@@ -21,8 +21,7 @@ interface WeatherApiService {
         @Query("lon") lon: Double,
         @Query("appid") appId: String,
         @Query("units") units: String = "metric",
-        @Query("lang") lang: String = "ru",
-        @Query("cnt") cnt: Int = 56
+        @Query("lang") lang: String = "ru"
     ): ForecastResponse
 }
 

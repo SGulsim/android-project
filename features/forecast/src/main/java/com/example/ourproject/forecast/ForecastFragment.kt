@@ -124,7 +124,7 @@ class ForecastFragment : Fragment() {
     private fun updateAdapter(forecastResponse: com.example.ourproject.data.api.model.ForecastResponse) {
         val dailyForecasts = groupForecastByDays(forecastResponse.list)
         
-        val forecastItems = dailyForecasts.take(7).mapIndexed { index, dayForecast ->
+        val forecastItems = dailyForecasts.take(5).mapIndexed { index, dayForecast ->
             val dayName = if (index == 0) {
                 requireContext().getString(R.string.today)
             } else {
