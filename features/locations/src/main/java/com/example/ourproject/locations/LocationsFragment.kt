@@ -54,6 +54,8 @@ class LocationsFragment : Fragment() {
             weatherPreferences.setTemperatureUnit(TemperatureUnit.CELSIUS)
 
             adapter = LocationsAdapter { cityName ->
+                // Save selected city to preferences
+                weatherPreferences.setSelectedCity(cityName)
                 val bundle = Bundle().apply {
                     putString("selected_city", cityName)
                 }

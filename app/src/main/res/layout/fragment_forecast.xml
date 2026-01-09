@@ -4,14 +4,15 @@
     android:background="@color/forecast_bg">
 
     <TextView
+        style="@style/TextAppearance.Weather.ScreenTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/forecast_7_days"
-        style="@style/TextAppearance.Weather.ScreenTitle"
-        android:layout_marginBottom="@dimen/spacing_lg"/>
+        android:layout_marginBottom="@dimen/spacing_lg"
+        android:text="@string/forecast_7_days" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_forecast"
-        style="@style/Widget.Weather.RecyclerView" />
+        style="@style/Widget.Weather.RecyclerView"
+        android:layout_height="220dp" />
 
 </LinearLayout>

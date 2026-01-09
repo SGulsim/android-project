@@ -8,13 +8,14 @@
 
         <TextView
             android:id="@+id/tv_day"
+            style="@style/TextAppearance.Weather.ForecastDay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_md"
+            android:layout_marginTop="4dp"
             android:text="@string/placeholder_day"
-            style="@style/TextAppearance.Weather.ForecastDay"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="@dimen/spacing_md" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_date"
@@ -30,12 +31,12 @@
         <ImageView
             android:id="@+id/iv_icon"
             style="@style/Widget.Weather.ImageView.ForecastIcon"
-            app:tint="@color/white"
-            android:layout_marginStart="@dimen/spacing_md"
+            android:layout_marginStart="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_date"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5" />
+            app:layout_constraintVertical_bias="0.16"
+            app:tint="@color/white" />
 
         <TextView
             android:id="@+id/tv_high"

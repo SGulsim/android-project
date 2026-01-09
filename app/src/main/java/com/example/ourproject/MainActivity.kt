@@ -7,6 +7,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.ourproject.core.databinding.ActivityMainBinding
 import com.example.ourproject.core.util.ImageLoaderWrapper
+import com.example.ourproject.data.preferences.WeatherPreferences
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,6 +38,9 @@ class MainActivity : AppCompatActivity() {
     fun navigateToCurrentWeather(cityName: String?) {
         if (::navController.isInitialized) {
             selectedCity = cityName
+            // Save to preferences
+            val prefs = WeatherPreferences(this)
+            prefs.setSelectedCity(cityName)
             val bundle = Bundle().apply {
                 putString("selected_city", cityName)
             }
@@ -47,6 +51,9 @@ class MainActivity : AppCompatActivity() {
     fun navigateToForecast(cityName: String?) {
         if (::navController.isInitialized) {
             selectedCity = cityName
+            // Save to preferences
+            val prefs = WeatherPreferences(this)
+            prefs.setSelectedCity(cityName)
             val bundle = Bundle().apply {
                 putString("selected_city", cityName)
             }

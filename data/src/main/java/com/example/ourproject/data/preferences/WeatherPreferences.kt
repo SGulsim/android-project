@@ -18,6 +18,7 @@ class WeatherPreferences(context: Context) {
         private const val PREFS_NAME = "weather_preferences"
         private const val KEY_TEMPERATURE_UNIT = "temperature_unit"
         private const val DEFAULT_TEMPERATURE_UNIT = "CELSIUS"
+        private const val KEY_SELECTED_CITY = "selected_city"
     }
 
     fun getTemperatureUnit(): TemperatureUnit {
@@ -52,6 +53,14 @@ class WeatherPreferences(context: Context) {
             TemperatureUnit.CELSIUS -> "°"
             TemperatureUnit.FAHRENHEIT -> "°"
         }
+    }
+
+    fun getSelectedCity(): String? {
+        return prefs.getString(KEY_SELECTED_CITY, null)
+    }
+
+    fun setSelectedCity(cityName: String?) {
+        prefs.edit().putString(KEY_SELECTED_CITY, cityName).apply()
     }
 }
 

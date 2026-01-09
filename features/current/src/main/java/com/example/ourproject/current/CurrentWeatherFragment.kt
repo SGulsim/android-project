@@ -40,7 +40,15 @@ class CurrentWeatherFragment : Fragment() {
     }
 
     private fun loadWeatherData() {
-        val selectedCity = arguments?.getString("selected_city")
+        // Get city from arguments first, then from preferences
+        var selectedCity = arguments?.getString("selected_city")
+        if (selectedCity.isNullOrBlank()) {
+            selectedCity = weatherPreferences.getSelectedCity()
+        }
+        // Also update preferences if we got city from arguments
+        if (!selectedCity.isNullOrBlank()) {
+            weatherPreferences.setSelectedCity(selectedCity)
+        }
         
         lifecycleScope.launch {
             try {
