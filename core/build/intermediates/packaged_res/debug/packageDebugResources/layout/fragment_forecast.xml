@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/Widget.Weather.Layout.LinearLayout.Vertical.Padding"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/spacing_md"
     android:background="@color/forecast_bg">
 
     <TextView
@@ -12,6 +15,6 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_forecast"
-        style="@style/Widget.Weather.RecyclerView" />
+        style="@style/Widget.Weather.RecyclerView.Weight" />
 
 </LinearLayout>
